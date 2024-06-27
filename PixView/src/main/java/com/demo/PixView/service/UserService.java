@@ -11,6 +11,6 @@ public class UserService {
     private JdbiUserRepository jdbiUserRepository;
 
     public void createNewUser(User user){
-        jdbiUserRepository.insert(user);
+        jdbiUserRepository.createNewUser(user);
     }
 }
