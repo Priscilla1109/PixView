@@ -5,10 +5,10 @@ import com.demo.PixView.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("APIs/PixView/users")
@@ -21,5 +21,21 @@ public class UserController {
         userService.createNewUser(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<Optional<User>> getUsersById(@PathVariable Long userId) {
+        Optional<User> users = userService.getUserById(userId);
+        if (users.isEmpty()){
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(users);
+        }
+    }
+
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) throws Throwable {
+        userService.deleteUserById(userId);
+        return ResponseEntity.ok("User deleted successfully");
     }
 }

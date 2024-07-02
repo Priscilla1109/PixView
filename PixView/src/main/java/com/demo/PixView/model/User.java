@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    private Long id;
+    private Long userId;
     private String name;
     private String userName;
     private int age;

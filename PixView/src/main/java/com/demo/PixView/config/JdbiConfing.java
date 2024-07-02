@@ -1,5 +1,6 @@
 package com.demo.PixView.config;
 
+import com.demo.PixView.repository.JdbiPostRepository;
 import com.demo.PixView.repository.JdbiUserRepository;
 import java.util.List;
 import javax.sql.DataSource;
@@ -38,4 +39,8 @@ public class JdbiConfing {
         return jdbi.onDemand(JdbiUserRepository.class);
     }
 
+    @Bean
+    public JdbiPostRepository jdbiPostRepository(Jdbi jdbi){
+        return jdbi.onDemand(JdbiPostRepository.class);
+    }
 }

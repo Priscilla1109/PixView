@@ -1,6 +1,8 @@
 package com.demo.PixView.repository;
 
+import com.demo.PixView.mapper.UserRowMapper;
 import com.demo.PixView.model.User;
+import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
@@ -10,9 +12,13 @@ import org.jdbi.v3.sqlobject.locator.UseClasspathSqlLocator;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Repository
 @UseClasspathSqlLocator
+@RegisterBeanMapper(UserRowMapper.class)
 public interface JdbiUserRepository {
     @SqlUpdate
     @GetGeneratedKeys
@@ -21,12 +27,9 @@ public interface JdbiUserRepository {
     @SqlQuery
     int selectByUserName(@Bind("userName") String userName);
 
-//    @SqlUpdate
-//    void update(@BindBean User user);
-//
-//    @SqlQuery
-//    Optional<User> getUserById(@Bind("id") Long id);
-//
-//    @SqlQuery
-//    void deleteUser(@Bind("id") Long id);
+    @SqlQuery
+    Optional<User> selectUserById(@Bind("userId") Long userId);
+
+    @SqlUpdate
+    void deleteUser(@Bind("userId") Long userId);
 }
