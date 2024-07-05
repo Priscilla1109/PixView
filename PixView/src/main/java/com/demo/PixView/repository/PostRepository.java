@@ -22,4 +22,8 @@ public class PostRepository {
     public void deletePost(Long postId) {
         jdbiPostRepository.deletePost(postId);
     }
+
+    public boolean existsById(Long postId) {
+        return jdbiPostRepository.existsById(postId);
+    }
 }

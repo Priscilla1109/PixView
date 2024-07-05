@@ -26,4 +26,8 @@ public class UserRepository {
     public void deleteUser(Long uerId){
         jdbiUserRepository.deleteUser(uerId);
     }
+
+    public boolean existsById(Long userId) {
+        return jdbiUserRepository.existsById(userId);
+    }
 }

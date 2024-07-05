@@ -27,4 +27,7 @@ public interface JdbiPostRepository {
 
     @SqlUpdate
     void deletePost(@Bind("postId") Long postId);
+
+    @SqlQuery
+    boolean existsById(@Bind("postId") Long postId);
 }

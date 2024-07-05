@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @UseClasspathSqlLocator
 public interface JdbiLikeRepository {
     @SqlUpdate
-    void addLike(@BindBean Like like);
+    Long addLike(@BindBean Like like);
 }

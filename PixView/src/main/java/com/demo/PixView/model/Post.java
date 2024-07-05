@@ -12,6 +12,6 @@ public class Post {
     private String userName;
     private String content;
     private LocalDateTime localDateTime;
-    private List<Like> likes;
-    private List<Comment> comments;
+    private int totalLikes;
+    private int totalComments;
 }

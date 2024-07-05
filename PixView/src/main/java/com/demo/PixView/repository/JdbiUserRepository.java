@@ -32,4 +32,7 @@ public interface JdbiUserRepository {
 
     @SqlUpdate
     void deleteUser(@Bind("userId") Long userId);
+
+    @SqlQuery
+    boolean existsById(@Bind("userId") Long userId);
 }
