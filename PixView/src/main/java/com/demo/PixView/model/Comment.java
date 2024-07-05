@@ -3,15 +3,13 @@ package com.demo.PixView.model;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
-public class Post {
+public class Comment {
+    private Long commentId;
     private Long postId;
     private Long userId;
     private String userName;
     private String content;
     private LocalDateTime localDateTime;
-    private List<Like> likes;
-    private List<Comment> comments;
 }

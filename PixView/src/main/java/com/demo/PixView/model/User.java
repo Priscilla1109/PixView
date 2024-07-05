@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -13,7 +14,7 @@ public class User {
     private Long userId;
     private String name;
     private String userName;
-    private int age;
+    private LocalDate birthDate;
     private String email;
     private String password;
     private List<User> friend;

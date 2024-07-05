@@ -4,7 +4,6 @@ import com.demo.PixView.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,7 +19,7 @@ public class UserRepository {
         return jdbiUserRepository.selectUserById(userId);
     }
 
-    public int selectByUserName(String userName) {
+    public Optional<User> selectByUserName(String userName) {
         return jdbiUserRepository.selectByUserName(userName);
     }
 

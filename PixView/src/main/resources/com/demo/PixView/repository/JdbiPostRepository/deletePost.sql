@@ -1,0 +1,1 @@
+DELETE FROM POSTS WHERE post_id = :postId

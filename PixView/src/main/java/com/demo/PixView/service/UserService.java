@@ -4,12 +4,12 @@ import com.demo.PixView.exception.InvalidAgeException;
 import com.demo.PixView.exception.UserNameAlreadyExistsException;
 import com.demo.PixView.exception.UserNotFoundException;
 import com.demo.PixView.model.User;
-import com.demo.PixView.repository.JdbiUserRepository;
 import com.demo.PixView.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Optional;
 
 @Service
@@ -18,13 +18,16 @@ public class UserService {
     private UserRepository repository;
 
     public void createNewUser(User user){
-        if (user.getAge() < 18) {
-            throw new InvalidAgeException("A idade mínima para cadastro é 18 anos.");
+        Optional<User> existingUser = repository.selectByUserName(user.getUserName());
+        if (existingUser.isPresent()) {
+            throw new UserNameAlreadyExistsException("User name already exists: " + user.getUserName());
         }
 
-        int count = repository.selectByUserName(user.getUserName());
-        if (count > 0) {
-            throw new UserNameAlreadyExistsException("O user name já está em uso. Escolha outro user name.");
+        LocalDate today = LocalDate.now();
+        LocalDate birthDate = user.getBirthDate();
+        int age = Period.between(birthDate, today).getYears();
+        if (age < 18) {
+            throw new InvalidAgeException("User must be at lest 18 years old");
         }
 
         long generatedId = repository.createNewUser(user);

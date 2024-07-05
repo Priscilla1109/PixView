@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("APIs/PixView/posts")
@@ -17,18 +17,24 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Post> createNewPost(@RequestBody Post post) {
-        postService.createNewPost(post);
+        postService.createNewPost(post.getUserName(), post.getContent());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Long userId) {
-        List<Post> posts = postService.getPostsByUserId(userId);
+    public ResponseEntity<Optional<Post>> getPostsByUserId(@PathVariable Long userId) {
+        Optional<Post> posts = postService.getPostsByUserId(userId);
         if (posts.isEmpty()){
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(posts);
         }
+    }
+
+    @DeleteMapping("/delete/{postId}")
+    public ResponseEntity<String> deletePost(@PathVariable Long postId){
+        postService.deletePostById(postId);
+        return ResponseEntity.ok("Post deleted successfully");
     }
 }

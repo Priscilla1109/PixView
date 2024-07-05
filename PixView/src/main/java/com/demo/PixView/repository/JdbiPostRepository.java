@@ -12,6 +12,7 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @UseClasspathSqlLocator
@@ -22,6 +23,8 @@ public interface JdbiPostRepository {
     long createNewPost(@BindBean Post post);
 
     @SqlQuery
-    List<Post> selectPostsByUserId(@Bind("userId") Long userId);
+    Optional<Post> selectPostsByUserId(@Bind("userId") Long userId);
 
+    @SqlUpdate
+    void deletePost(@Bind("postId") Long postId);
 }

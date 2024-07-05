@@ -25,7 +25,7 @@ public interface JdbiUserRepository {
     long createNewUser(@BindBean User user);
 
     @SqlQuery
-    int selectByUserName(@Bind("userName") String userName);
+    Optional<User> selectByUserName(@Bind("userName") String userName);
 
     @SqlQuery
     Optional<User> selectUserById(@Bind("userId") Long userId);

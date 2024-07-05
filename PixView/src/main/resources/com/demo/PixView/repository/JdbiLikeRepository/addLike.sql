@@ -1,0 +1,1 @@
+INSERT INTO LIKES (post_id, user_id) VALUES (:postId, :userId);
