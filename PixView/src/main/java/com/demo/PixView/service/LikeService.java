@@ -9,6 +9,8 @@ import com.demo.PixView.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class LikeService {
     @Autowired
@@ -33,6 +35,18 @@ public class LikeService {
         }
         if (!likeRepository.likeExists(like)) {
             likeRepository.addLike(like);
+        }
+    }
+
+    public void deleteLikeById(Long likeId) {
+        Optional<Like> likeOptional = likeRepository.selectByLikeId(likeId);
+
+        if (likeOptional.isPresent()) {
+            Like like = new Like();
+
+            likeRepository.deleteLikeById(like.getUserId());
+        } else {
+            throw new UserNotFoundException("User not found");
         }
     }
 }

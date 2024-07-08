@@ -7,10 +7,7 @@ import com.demo.PixView.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("APIs/PixView/likes")
@@ -29,5 +26,11 @@ public class LikeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
         }
 
+    }
+
+    @DeleteMapping("/delete/{likeId}")
+    public ResponseEntity<String> deleteLikeById(@PathVariable Long likeId) {
+        service.deleteLikeById(likeId);
+        return ResponseEntity.ok("Like deleted successfully");
     }
 }
