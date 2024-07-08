@@ -1,0 +1,1 @@
+DELETE FROM COMMENTS WHERE comment_id = :commentId

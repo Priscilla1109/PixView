@@ -22,14 +22,13 @@ public class LikeService {
 
     public void addLike(Long postId, Long userId) {
         if (!postRepository.existsById(postId)) {
-            throw new PostNotFoundException("Post not found: " + postId);
+            throw new PostNotFoundException("Post not found with id: " + postId);
         }
         if (!userRepository.existsById(userId)) {
-            throw new UserNotFoundException("User not found: " + userId);
+            throw new UserNotFoundException("User not found with id: " + userId);
         }
-        Like like = new Like();
-        like.setUserId(userId);
-        like.setPostId(postId);
-        likeRepository.addLike(like);
+        if (!likeRepository.likeExists(postId, userId)) {
+            likeRepository.addLike(postId, userId);
+        }
     }
 }

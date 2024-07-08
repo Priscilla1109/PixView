@@ -1,9 +1,6 @@
 package com.demo.PixView.advice;
 
-import com.demo.PixView.exception.InvalidAgeException;
-import com.demo.PixView.exception.PostNotFoundException;
-import com.demo.PixView.exception.UserNameAlreadyExistsException;
-import com.demo.PixView.exception.UserNotFoundException;
+import com.demo.PixView.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +27,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PostNotFoundException.class)
     public ResponseEntity<String> handlePostNotFoundException(PostNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<String> handleCommentNotFoundException(CommentNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }
