@@ -1,0 +1,1 @@
+INSERT INTO COMMENTS (post_id, user_id, user_name, content, local_date_time) VALUES (:postId, :userId, :userName, :content, :localDateTime);

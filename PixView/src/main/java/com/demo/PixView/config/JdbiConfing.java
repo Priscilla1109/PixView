@@ -1,9 +1,7 @@
 package com.demo.PixView.config;
 
-import com.demo.PixView.repository.JdbiCommentRepository;
-import com.demo.PixView.repository.JdbiLikeRepository;
-import com.demo.PixView.repository.JdbiPostRepository;
-import com.demo.PixView.repository.JdbiUserRepository;
+import com.demo.PixView.repository.*;
+
 import java.util.List;
 import javax.sql.DataSource;
 import org.jdbi.v3.core.Jdbi;
@@ -54,5 +52,10 @@ public class JdbiConfing {
     @Bean
     public JdbiCommentRepository jdbiCommentRepository(Jdbi jdbi) {
         return jdbi.onDemand(JdbiCommentRepository.class);
+    }
+
+    @Bean
+    public JdbiFriends jdbiUserFriends(Jdbi jdbi) {
+        return jdbi.onDemand(JdbiFriends.class);
     }
 }

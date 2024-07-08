@@ -35,4 +35,7 @@ public interface JdbiUserRepository {
 
     @SqlQuery
     boolean existsById(@Bind("userId") Long userId);
+
+    @SqlQuery
+    Optional<User> findById(@Bind("userId") Long userId);
 }

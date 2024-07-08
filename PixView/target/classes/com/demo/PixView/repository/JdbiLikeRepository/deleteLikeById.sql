@@ -1,0 +1,1 @@
+DELETE FROM LIKES WHERE like_id = :likeId

@@ -1,0 +1,1 @@
+SELECT * FROM LIKES WHERE like_id = :likeId;

@@ -1,0 +1,1 @@
+SELECT EXISTS(SELECT 1 FROM USERS WHERE user_id = :userId)

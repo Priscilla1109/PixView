@@ -42,9 +42,7 @@ public class LikeService {
         Optional<Like> likeOptional = likeRepository.selectByLikeId(likeId);
 
         if (likeOptional.isPresent()) {
-            Like like = new Like();
-
-            likeRepository.deleteLikeById(like.getUserId());
+            likeRepository.deleteLikeById(likeId);
         } else {
             throw new UserNotFoundException("User not found");
         }

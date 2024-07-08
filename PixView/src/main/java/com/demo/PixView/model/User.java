@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,5 +18,5 @@ public class User {
     private LocalDate birthDate;
     private String email;
     private String password;
-    private List<User> friend;
+    private List<User> friend = new ArrayList<>();
 }

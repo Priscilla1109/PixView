@@ -1,0 +1,1 @@
+DELETE FROM FRIENDS WHERE user_id = :userId AND friend_id = :friendId;
