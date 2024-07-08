@@ -1,7 +1,6 @@
 package com.demo.PixView.repository;
 
 import com.demo.PixView.model.Like;
-import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.locator.UseClasspathSqlLocator;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
@@ -12,8 +11,7 @@ import org.springframework.stereotype.Repository;
 @UseClasspathSqlLocator
 public interface JdbiLikeRepository {
     @SqlUpdate
-    Long addLike(@Bind("postId") Long postId, @Bind("userId") Long userId);
-
+    void addLike(@BindBean Like like);
     @SqlQuery
-    boolean likeExists(@Bind("postId") Long postId, @Bind("userId") Long userId);
+    boolean likeExists(@BindBean Like like);
 }
