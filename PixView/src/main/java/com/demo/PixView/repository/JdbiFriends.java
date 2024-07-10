@@ -22,5 +22,6 @@ public interface JdbiFriends {
     @SqlQuery
     List<User> findFriends(@Bind("userId") Long userId);
 
-    Optional<User> findById(Long friendId);
+    @SqlQuery
+    Optional<User> findById(@Bind("userId") Long userId);
 }

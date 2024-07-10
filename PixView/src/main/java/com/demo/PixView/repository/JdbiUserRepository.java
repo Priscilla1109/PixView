@@ -38,4 +38,13 @@ public interface JdbiUserRepository {
 
     @SqlQuery
     Optional<User> findById(@Bind("userId") Long userId);
+
+    @SqlQuery
+    List<User> getAllUsers();
+
+    @SqlQuery
+    List<User> findAll(@Bind("offSet") int offSet, @Bind("limit") int limit);
+
+    @SqlQuery
+    Long countAll();
 }

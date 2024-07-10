@@ -3,13 +3,16 @@ package com.demo.PixView.service;
 import com.demo.PixView.exception.InvalidAgeException;
 import com.demo.PixView.exception.UserNameAlreadyExistsException;
 import com.demo.PixView.exception.UserNotFoundException;
+import com.demo.PixView.model.Meta;
 import com.demo.PixView.model.User;
+import com.demo.PixView.model.UserPageResponse;
 import com.demo.PixView.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,7 +20,7 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public void createNewUser(User user){
+    public User createNewUser(User user){
         Optional<User> existingUser = repository.selectByUserName(user.getUserName());
         if (existingUser.isPresent()) {
             throw new UserNameAlreadyExistsException("User name already exists: " + user.getUserName());
@@ -32,6 +35,7 @@ public class UserService {
 
         long generatedId = repository.createNewUser(user);
         user.setUserId(generatedId);
+        return user;
     }
 
     public Optional<User> getUserById(Long userId) {
@@ -48,5 +52,16 @@ public class UserService {
         } else {
             throw new UserNotFoundException("User not found");
         }
+    }
+
+    public UserPageResponse<User> listAllUsers(int page, int pageSize) {
+        int offSet = page * pageSize;
+
+        List<User> users = repository.findAll(offSet, pageSize);
+        Long totalElements = repository.countAll();
+        int totalPages = (int) Math.ceil((double) totalElements / pageSize);
+
+        return new UserPageResponse(users,
+                new Meta(page, pageSize, totalPages, totalElements));
     }
 }

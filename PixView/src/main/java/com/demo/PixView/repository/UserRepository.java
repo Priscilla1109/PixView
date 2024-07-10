@@ -4,6 +4,7 @@ import com.demo.PixView.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -29,5 +30,17 @@ public class UserRepository {
 
     public boolean existsById(Long userId) {
         return jdbiUserRepository.existsById(userId);
+    }
+
+    public List<User> getAllUsers() {
+        return jdbiUserRepository.getAllUsers();
+    }
+
+    public List<User> findAll(int offSet, int pageSize) {
+        return jdbiUserRepository.findAll(offSet, pageSize);
+    }
+
+    public Long countAll() {
+        return jdbiUserRepository.countAll();
     }
 }
