@@ -1,6 +1,9 @@
 package com.demo.PixView.controller;
 
+import com.demo.PixView.mapper.PostMapper;
 import com.demo.PixView.model.Post;
+import com.demo.PixView.model.PostRequest;
+import com.demo.PixView.model.PostResponse;
 import com.demo.PixView.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,10 +19,10 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<Post> createNewPost(@RequestBody Post post) {
-        postService.createNewPost(post.getUserName(), post.getContent());
+    public ResponseEntity<PostResponse> createNewPost(@RequestBody PostRequest postRequest) {
+        Post post = postService.createNewPost(postRequest.getUserName(), postRequest.getContent());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(post);
+        return ResponseEntity.status(HttpStatus.CREATED).body(PostMapper.toResponse(post));
     }
 
     @GetMapping("/user/{userId}")

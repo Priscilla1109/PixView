@@ -33,7 +33,7 @@ public class UserService {
             throw new InvalidAgeException("User must be at lest 18 years old");
         }
 
-        long generatedId = repository.createNewUser(user);
+        Long generatedId = repository.createNewUser(user);
         user.setUserId(generatedId);
         return user;
     }
