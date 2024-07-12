@@ -4,6 +4,7 @@ import com.demo.PixView.model.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,8 +16,8 @@ public class PostRepository {
         return jdbiPostRepository.createNewPost(post);
     }
 
-    public Optional<Post> selectPostsByUserId(Long userId) {
-        return jdbiPostRepository.selectPostsByUserId(userId);
+    public Optional<Post> selectPostsById(Long postId) {
+        return jdbiPostRepository.selectPostsById(postId);
     }
 
     public void deletePost(Long postId) {
@@ -25,5 +26,13 @@ public class PostRepository {
 
     public boolean existsById(Long postId) {
         return jdbiPostRepository.existsById(postId);
+    }
+
+    public List<Post> findAll(int offSet, int pageSize) {
+        return jdbiPostRepository.findAll(offSet, pageSize);
+    }
+
+    public Long countAll() {
+        return jdbiPostRepository.countAll();
     }
 }

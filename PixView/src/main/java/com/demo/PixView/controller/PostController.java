@@ -2,6 +2,7 @@ package com.demo.PixView.controller;
 
 import com.demo.PixView.mapper.PostMapper;
 import com.demo.PixView.model.Post;
+import com.demo.PixView.model.PostPageResponse;
 import com.demo.PixView.model.PostRequest;
 import com.demo.PixView.model.PostResponse;
 import com.demo.PixView.service.PostService;
@@ -25,14 +26,21 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(PostMapper.toResponse(post));
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<Optional<Post>> getPostsByUserId(@PathVariable Long userId) {
-        Optional<Post> posts = postService.getPostsByUserId(userId);
-        if (posts.isEmpty()){
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(posts);
-        }
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostResponse> getPostsById(@PathVariable Long postId) {
+        Optional<Post> posts = postService.getPostsById(postId);
+
+        return posts.map(value -> ResponseEntity.ok(PostMapper.toResponse(value)))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @GetMapping("/allPosts")
+    public ResponseEntity<PostPageResponse> listAllPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        PostPageResponse<Post> postPageResponse = postService.listAllPosts(page, pageSize);
+
+        return ResponseEntity.ok(postPageResponse);
     }
 
     @DeleteMapping("/delete/{postId}")

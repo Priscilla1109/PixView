@@ -23,11 +23,17 @@ public interface JdbiPostRepository {
     long createNewPost(@BindBean Post post);
 
     @SqlQuery
-    Optional<Post> selectPostsByUserId(@Bind("userId") Long userId);
+    Optional<Post> selectPostsById(@Bind("postId") Long postId);
 
     @SqlUpdate
     void deletePost(@Bind("postId") Long postId);
 
     @SqlQuery
     boolean existsById(@Bind("postId") Long postId);
+
+    @SqlQuery
+    List<Post> findAll(@Bind("offSet") int offSet, @Bind("limit") int limit);
+
+    @SqlQuery
+    Long countAll();
 }
