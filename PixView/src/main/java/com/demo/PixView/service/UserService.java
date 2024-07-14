@@ -1,6 +1,7 @@
 package com.demo.PixView.service;
 
 import com.demo.PixView.exception.InvalidAgeException;
+import com.demo.PixView.exception.PostNotFoundException;
 import com.demo.PixView.exception.UserNameAlreadyExistsException;
 import com.demo.PixView.exception.UserNotFoundException;
 import com.demo.PixView.model.Meta;
@@ -39,6 +40,9 @@ public class UserService {
     }
 
     public Optional<User> getUserById(Long userId) {
+        if (!repository.existsById(userId)) {
+            throw new UserNotFoundException("User not found with id: " + userId);
+        }
         return repository.selectByUserId(userId);
     }
 
@@ -50,7 +54,7 @@ public class UserService {
 
             repository.deleteUser(user.getUserId());
         } else {
-            throw new UserNotFoundException("User not found");
+            throw new UserNotFoundException("User not found with id: " + userId);
         }
     }
 
