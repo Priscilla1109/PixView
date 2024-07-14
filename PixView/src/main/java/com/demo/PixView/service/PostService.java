@@ -67,4 +67,16 @@ public class PostService {
         return new PostPageResponse(posts,
                 new Meta(page, pageSize, totalPages, totalElements));
     }
+
+    public List<Post> getPostsByUserId(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new UserNotFoundException("User not found with id: " + userId);
+        }
+        List<Post> posts = postRepository.selectPostsByUserId(userId);
+        for (Post post : posts) {
+            int totalLikes = postRepository.countLikesByPostId(post.getPostId());
+            post.setTotalLikes(totalLikes);
+        }
+        return posts;
+    }
 }

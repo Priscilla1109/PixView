@@ -3,6 +3,7 @@ package com.demo.PixView.model;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -13,5 +14,5 @@ public class Post {
     private String content;
     private LocalDateTime localDateTime;
     private int totalLikes;
-    private int totalComments;
+    private List<Comment> totalComments = new ArrayList<>();
 }

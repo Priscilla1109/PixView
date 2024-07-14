@@ -20,6 +20,10 @@ public class PostRepository {
         return jdbiPostRepository.selectPostsById(postId);
     }
 
+    public List<Post> selectPostsByUserId(Long userId) {
+        return jdbiPostRepository.selectPostsByUserId(userId);
+    }
+
     public void deletePost(Long postId) {
         jdbiPostRepository.deletePost(postId);
     }
@@ -34,5 +38,9 @@ public class PostRepository {
 
     public Long countAll() {
         return jdbiPostRepository.countAll();
+    }
+
+    public int countLikesByPostId(Long postId) {
+        return jdbiPostRepository.countLikesByPostId(postId);
     }
 }

@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("APIs/PixView/posts")
@@ -32,6 +34,15 @@ public class PostController {
 
         return posts.map(value -> ResponseEntity.ok(PostMapper.toResponse(value)))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PostResponse>> getPostsByUserId(@PathVariable Long userId) {
+        List<Post> posts = postService.getPostsByUserId(userId);
+        List<PostResponse> postResponses = posts.stream()
+                .map(PostResponse::toResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(postResponses);
     }
 
     @GetMapping("/allPosts")

@@ -36,4 +36,10 @@ public interface JdbiPostRepository {
 
     @SqlQuery
     Long countAll();
+
+    @SqlQuery
+    List<Post> selectPostsByUserId(@Bind("userId") Long userId);
+
+    @SqlQuery
+    int countLikesByPostId(@Bind("postId") Long postId);
 }

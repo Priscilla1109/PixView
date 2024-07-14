@@ -19,6 +19,7 @@ public class PostRowMapper implements RowMapper<Post> {
         post.setUserName(rs.getString("user_name"));
         post.setContent(rs.getString("content"));
         post.setLocalDateTime(rs.getTimestamp("local_date_time").toLocalDateTime());
+        post.setTotalLikes(rs.getInt("total_likes"));
 
         return post;
     }
