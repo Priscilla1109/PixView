@@ -1,5 +1,7 @@
 package com.demo.PixView.controller;
 
+import com.demo.PixView.mapper.CommentMapper;
+import com.demo.PixView.model.CommentResponse;
 import com.demo.PixView.model.Comment;
 import com.demo.PixView.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +15,14 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addComment(@RequestBody Comment comment) {
-        commentService.addComment(
+    public ResponseEntity<CommentResponse> addComment(@RequestBody Comment comment) {
+        Comment commentCreated = commentService.addComment(
                 comment.getPostId(),
                 comment.getUserId(),
                 comment.getUserName(),
                 comment.getContent());
-        return ResponseEntity.ok().body(comment);
+        CommentResponse response = CommentMapper.toResponse(commentCreated);
+        return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("/delete/{commentId}")

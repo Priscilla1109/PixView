@@ -1,21 +1,14 @@
 package com.demo.PixView.mapper;
 
 import com.demo.PixView.model.Comment;
-import lombok.Data;
+import com.demo.PixView.model.CommentResponse;
 
-import java.time.LocalDateTime;
-
-@Data
-public class CommentResponse {
-    private Long commentId;
-    private Long userId;
-    private String content;
-    private LocalDateTime localDateTime;
-
+public class CommentMapper {
     public static CommentResponse toResponse(Comment comment) {
         CommentResponse commentResponse = new CommentResponse();
         commentResponse.setCommentId(comment.getCommentId());
-        commentResponse.setUserId(comment.getUserId());
+        commentResponse.setUserName(comment.getUserName());
+        commentResponse.setPostId(comment.getPostId());
         commentResponse.setContent(comment.getContent());
         commentResponse.setLocalDateTime(comment.getLocalDateTime());
         return commentResponse;

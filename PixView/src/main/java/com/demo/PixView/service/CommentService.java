@@ -1,9 +1,7 @@
 package com.demo.PixView.service;
 
 import com.demo.PixView.exception.CommentNotFoundException;
-import com.demo.PixView.exception.UserNotFoundException;
 import com.demo.PixView.model.Comment;
-import com.demo.PixView.model.User;
 import com.demo.PixView.repository.JdbiCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,7 @@ public class CommentService {
     @Autowired
     private JdbiCommentRepository repository;
 
-    public void addComment(Long postId, Long userId, String userName, String content) {
+    public Comment addComment(Long postId, Long userId, String userName, String content) {
         Comment comment = new Comment();
         comment.setPostId(postId);
         comment.setUserId(userId);
@@ -24,7 +22,10 @@ public class CommentService {
         comment.setContent(content);
         comment.setLocalDateTime(LocalDateTime.now());
 
-        repository.addComment(comment);
+        Long generatedId = repository.addComment(comment);
+        comment.setCommentId(generatedId);
+
+        return comment;
     }
 
     public void deleteCommentById(Long commentId) {
@@ -35,7 +36,7 @@ public class CommentService {
 
             repository.deleteCommentById(comment.getUserId());
         } else {
-            throw new UserNotFoundException("User not found");
+            throw new CommentNotFoundException("Comment not found with id: " + commentId);
         }
     }
 }
