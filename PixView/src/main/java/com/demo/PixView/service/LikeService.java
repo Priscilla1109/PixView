@@ -1,5 +1,6 @@
 package com.demo.PixView.service;
 
+import com.demo.PixView.exception.LikeNotFoundException;
 import com.demo.PixView.exception.PostNotFoundException;
 import com.demo.PixView.exception.UserNotFoundException;
 import com.demo.PixView.model.Like;
@@ -23,18 +24,25 @@ public class LikeService {
     private UserRepository userRepository;
 
     public void addLike(Long postId, Long userId) {
-        Like like = new Like();
-        like.setPostId(postId);
-        like.setUserId(userId);
+        validatePostExists(postId);
+        validateUserExists(userId);
+        Like like = new Like(postId, userId, null);
 
-        if (!postRepository.existsById(postId)) {
-            throw new PostNotFoundException("Post not found with id: " + postId);
+        if (!likeRepository.likeExists(like)) {
+            long generatedId = likeRepository.addLike(like);
+            like.setLikeId(generatedId);
         }
+    }
+
+    private void validateUserExists(Long userId) {
         if (!userRepository.existsById(userId)) {
             throw new UserNotFoundException("User not found with id: " + userId);
         }
-        if (!likeRepository.likeExists(like)) {
-            likeRepository.addLike(like);
+    }
+
+    private void validatePostExists(Long postId) {
+        if (!postRepository.existsById(postId)) {
+            throw new PostNotFoundException("Post not found with id: " + postId);
         }
     }
 
@@ -44,7 +52,7 @@ public class LikeService {
         if (likeOptional.isPresent()) {
             likeRepository.deleteLikeById(likeId);
         } else {
-            throw new UserNotFoundException("User not found");
+            throw new LikeNotFoundException("Like not found with id: " + likeId);
         }
     }
 }

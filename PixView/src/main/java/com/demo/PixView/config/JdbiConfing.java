@@ -55,7 +55,7 @@ public class JdbiConfing {
     }
 
     @Bean
-    public JdbiFriends jdbiUserFriends(Jdbi jdbi) {
-        return jdbi.onDemand(JdbiFriends.class);
+    public JdbiFriendsRepository jdbiUserFriends(Jdbi jdbi) {
+        return jdbi.onDemand(JdbiFriendsRepository.class);
     }
 }

@@ -1,0 +1,3 @@
+SELECT COUNT(*)
+FROM COMMENTS
+WHERE post_id = :postId;

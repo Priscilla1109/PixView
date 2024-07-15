@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @UseClasspathSqlLocator
-public interface JdbiFriends {
+public interface JdbiFriendsRepository {
     @SqlUpdate
     void addNewFriend(@Bind("userId") Long userId, @Bind("friendId") Long friendId);
 

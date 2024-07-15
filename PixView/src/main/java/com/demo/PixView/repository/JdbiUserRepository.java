@@ -30,17 +30,14 @@ public interface JdbiUserRepository {
     @SqlQuery
     Optional<User> selectUserById(@Bind("userId") Long userId);
 
+    @SqlQuery
+    Optional<User> selectByEmail(@Bind("email") String email);
+
     @SqlUpdate
     void deleteUser(@Bind("userId") Long userId);
 
     @SqlQuery
     boolean existsById(@Bind("userId") Long userId);
-
-    @SqlQuery
-    Optional<User> findById(@Bind("userId") Long userId);
-
-    @SqlQuery
-    List<User> getAllUsers();
 
     @SqlQuery
     List<User> findAll(@Bind("offSet") int offSet, @Bind("limit") int limit);

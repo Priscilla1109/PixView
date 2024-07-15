@@ -1,5 +1,7 @@
 package com.demo.PixView.repository;
 
+import com.demo.PixView.exception.PostNotFoundException;
+import com.demo.PixView.exception.UserNotFoundException;
 import com.demo.PixView.model.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -11,25 +13,37 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostRepository {
     private final JdbiPostRepository jdbiPostRepository;
+    private final UserRepository userRepository;
 
     public Long createNewPost(final Post post) {
         return jdbiPostRepository.createNewPost(post);
     }
 
     public Optional<Post> selectPostsById(Long postId) {
-        return jdbiPostRepository.selectPostsById(postId);
+        Optional<Post> optionalPost = jdbiPostRepository.selectPostsById(postId);
+        return Optional.ofNullable(optionalPost.orElseThrow(() -> new PostNotFoundException("Post not found with id: " + postId)));
     }
 
     public List<Post> selectPostsByUserId(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new UserNotFoundException("User not found with id: " + userId);
+        }
         return jdbiPostRepository.selectPostsByUserId(userId);
     }
 
     public void deletePost(Long postId) {
+        if (!existsById(postId)) {
+            throw new PostNotFoundException("Post not found with id: " + postId);
+        }
         jdbiPostRepository.deletePost(postId);
     }
 
     public boolean existsById(Long postId) {
-        return jdbiPostRepository.existsById(postId);
+        boolean existById = jdbiPostRepository.existsById(postId);
+        if (!existById) {
+            throw new PostNotFoundException("Post not found with id: " + postId);
+        }
+        return true;
     }
 
     public List<Post> findAll(int offSet, int pageSize) {

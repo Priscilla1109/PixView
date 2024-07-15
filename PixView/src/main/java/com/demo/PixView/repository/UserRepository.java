@@ -1,5 +1,8 @@
 package com.demo.PixView.repository;
 
+import com.demo.PixView.exception.EmailAlreadyExistsException;
+import com.demo.PixView.exception.UserNameAlreadyExistsException;
+import com.demo.PixView.exception.UserNotFoundException;
 import com.demo.PixView.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -17,23 +20,38 @@ public class UserRepository {
     }
 
     public Optional<User> selectByUserId(Long userId) {
-        return jdbiUserRepository.selectUserById(userId);
+        Optional<User> optionalUser = jdbiUserRepository.selectUserById(userId);
+        return Optional.ofNullable(optionalUser.orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId)));
     }
 
     public Optional<User> selectByUserName(String userName) {
-        return jdbiUserRepository.selectByUserName(userName);
+        Optional<User> optionalUser = jdbiUserRepository.selectByUserName(userName);
+        return Optional.ofNullable(optionalUser.orElseThrow(() -> new UserNotFoundException("User not found with name: " + userName)));
     }
 
-    public void deleteUser(Long uerId){
-        jdbiUserRepository.deleteUser(uerId);
+    public Optional<User> existByUserName(String userName) {
+        Optional<User> existingUser = jdbiUserRepository.selectByUserName(userName);
+        if (existingUser.isPresent()) {
+            throw new UserNameAlreadyExistsException("User name already exists: " + userName);
+        }
+        return existingUser;
+    }
+
+    public Optional<User> existByEmail(String email) {
+        Optional<User> existingUser = jdbiUserRepository.selectByEmail(email);
+        if (existingUser.isPresent()) {
+            throw new EmailAlreadyExistsException("Email already begin used: " + email);
+        }
+        return existingUser;
+    }
+
+    public void deleteUser(Long userId){
+        selectByUserId(userId);
+        jdbiUserRepository.deleteUser(userId);
     }
 
     public boolean existsById(Long userId) {
         return jdbiUserRepository.existsById(userId);
-    }
-
-    public List<User> getAllUsers() {
-        return jdbiUserRepository.getAllUsers();
     }
 
     public List<User> findAll(int offSet, int pageSize) {
