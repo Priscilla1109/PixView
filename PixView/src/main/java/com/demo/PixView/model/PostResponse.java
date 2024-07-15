@@ -1,11 +1,8 @@
 package com.demo.PixView.model;
 
-import com.demo.PixView.mapper.CommentResponse;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class PostResponse {
@@ -15,7 +12,7 @@ public class PostResponse {
     private String content;
     private LocalDateTime localDateTime;
     private int totalLikes;
-    private List<CommentResponse> totalComments;
+    private int totalComments;
 
     public static PostResponse toResponse(Post post) {
         PostResponse postResponse = new PostResponse();
@@ -25,11 +22,7 @@ public class PostResponse {
         postResponse.setContent(post.getContent());
         postResponse.setLocalDateTime(post.getLocalDateTime());
         postResponse.setTotalLikes(post.getTotalLikes());
-        postResponse.setTotalComments(
-                post.getTotalComments().stream()
-                        .map(CommentResponse::toResponse)
-                        .collect(Collectors.toList())
-        );
+        postResponse.setTotalComments(post.getTotalComments());
         return postResponse;
     }
 }

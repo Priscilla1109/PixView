@@ -42,4 +42,7 @@ public interface JdbiPostRepository {
 
     @SqlQuery
     int countLikesByPostId(@Bind("postId") Long postId);
+
+    @SqlQuery
+    int countCommentsByPostId(@Bind("postId")Long postId);
 }

@@ -14,6 +14,7 @@ CREATE TABLE POSTS (
     content TEXT NOT NULL,
     local_date_time TIMESTAMP NOT NULL,
     total_likes INT,
+    total_comments INT,
     FOREIGN KEY (user_id) REFERENCES USERS(user_id)     --- referência a tabela USERS
 );
 

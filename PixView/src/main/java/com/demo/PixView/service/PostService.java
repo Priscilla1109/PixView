@@ -75,7 +75,9 @@ public class PostService {
         List<Post> posts = postRepository.selectPostsByUserId(userId);
         for (Post post : posts) {
             int totalLikes = postRepository.countLikesByPostId(post.getPostId());
+            int totalComments = postRepository.countCommentsByPostId(post.getPostId());
             post.setTotalLikes(totalLikes);
+            post.setTotalComments(totalComments);
         }
         return posts;
     }

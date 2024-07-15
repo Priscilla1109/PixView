@@ -43,4 +43,8 @@ public class PostRepository {
     public int countLikesByPostId(Long postId) {
         return jdbiPostRepository.countLikesByPostId(postId);
     }
+
+    public int countCommentsByPostId(Long postId) {
+        return jdbiPostRepository.countCommentsByPostId(postId);
+    }
 }
