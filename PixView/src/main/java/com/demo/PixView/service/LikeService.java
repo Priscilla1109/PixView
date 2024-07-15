@@ -41,9 +41,7 @@ public class LikeService {
     }
 
     private void validatePostExists(Long postId) {
-        if (!postRepository.existsById(postId)) {
-            throw new PostNotFoundException("Post not found with id: " + postId);
-        }
+        postRepository.existsById(postId);
     }
 
     public void deleteLikeById(Long likeId) {

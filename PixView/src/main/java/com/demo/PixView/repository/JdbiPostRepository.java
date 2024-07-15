@@ -29,7 +29,7 @@ public interface JdbiPostRepository {
     void deletePost(@Bind("postId") Long postId);
 
     @SqlQuery
-    boolean existsById(@Bind("postId") Long postId);
+    Optional<Post> existsById(@Bind("postId") Long postId);
 
     @SqlQuery
     List<Post> findAll(@Bind("offSet") int offSet, @Bind("limit") int limit);

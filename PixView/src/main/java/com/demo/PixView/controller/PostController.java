@@ -29,6 +29,7 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
+    //TODO: está dando erro 500
     public ResponseEntity<PostResponse> getPostsById(@PathVariable Long postId) {
         Optional<Post> posts = postService.getPostsById(postId);
 

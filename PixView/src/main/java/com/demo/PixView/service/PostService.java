@@ -23,10 +23,6 @@ public class PostService {
     public Post createNewPost(String userName, String content){
         Optional<User> userOptional = userRepository.selectByUserName(userName);
 
-        if (!userOptional.isPresent()) {
-            throw new UserNotFoundException("User does not existe: " + userName);
-        }
-
         User user = userOptional.get();
         Post post = new Post();
         post.setUserId(user.getUserId());
@@ -41,19 +37,13 @@ public class PostService {
     }
 
     public Optional<Post> getPostsById(Long postId) {
-        if (!postRepository.existsById(postId)) {
-            throw new PostNotFoundException("Post not found with id: " + postId);
-        }
+        postRepository.existsById(postId);
         return postRepository.selectPostsById(postId);
     }
 
     public void deletePostById(Long postId) {
-        Optional<Post> postOptional = postRepository.selectPostsById(postId);
-
-        if (postOptional.isPresent()) {
-            Post post = postOptional.get();
-
-            postRepository.deletePost(post.getPostId());
+        postRepository.selectPostsById(postId);
+        postRepository.deletePost(postId);
         }
     }
 
