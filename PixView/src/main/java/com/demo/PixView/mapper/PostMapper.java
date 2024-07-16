@@ -11,8 +11,8 @@ public class PostMapper {
         postResponse.setPostId(post.getPostId());
         postResponse.setContent(post.getContent());
         postResponse.setLocalDateTime(post.getLocalDateTime());
-        postResponse.setTotalLikes(0);
-        postResponse.setTotalComments(0);
+        postResponse.setTotalLikes(post.getTotalLikes());
+        postResponse.setTotalComments(post.getTotalComments());
 
         return postResponse;
     }

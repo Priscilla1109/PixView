@@ -25,4 +25,7 @@ public interface JdbiLikeRepository {
 
     @SqlUpdate
     void deleteLikeById(@Bind("likeId") Long likeId);
+
+    @SqlUpdate
+    void deleteAllLikesByPostId(@Bind("postId") Long postId);
 }

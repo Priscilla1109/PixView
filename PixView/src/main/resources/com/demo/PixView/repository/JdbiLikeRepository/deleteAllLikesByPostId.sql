@@ -1,0 +1,1 @@
+DELETE FROM LIKES WHERE post_id = :postId

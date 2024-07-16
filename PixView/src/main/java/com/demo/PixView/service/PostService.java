@@ -3,6 +3,8 @@ package com.demo.PixView.service;
 import com.demo.PixView.exception.PostNotFoundException;
 import com.demo.PixView.exception.UserNotFoundException;
 import com.demo.PixView.model.*;
+import com.demo.PixView.repository.JdbiCommentRepository;
+import com.demo.PixView.repository.JdbiLikeRepository;
 import com.demo.PixView.repository.PostRepository;
 import com.demo.PixView.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,12 @@ public class PostService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JdbiLikeRepository likeRepository;
+
+    @Autowired
+    private JdbiCommentRepository commentRepository;
 
     public Post createNewPost(String userName, String content){
         Optional<User> userOptional = userRepository.selectByUserName(userName);
@@ -37,13 +45,19 @@ public class PostService {
     }
 
     public Optional<Post> getPostsById(Long postId) {
-        postRepository.existsById(postId);
-        return postRepository.selectPostsById(postId);
+        Optional<Post> post = postRepository.selectPostsById(postId);
+        post.ifPresent(this::populateLikesAndComments);
+        return post;
     }
 
     public void deletePostById(Long postId) {
-        postRepository.selectPostsById(postId);
-        postRepository.deletePost(postId);
+        Optional<Post> postOptional = postRepository.selectPostsById(postId);
+        if (postOptional.isPresent()) {
+            likeRepository.deleteAllLikesByPostId(postId);
+            commentRepository.deleteAllCommentsByPostId(postId);
+            postRepository.deletePost(postId);
+        } else {
+            throw new PostNotFoundException("Post not found with id: " + postId);
         }
     }
 
@@ -53,6 +67,7 @@ public class PostService {
         List<Post> posts = postRepository.findAll(offSet, pageSize);
         Long totalElements = postRepository.countAll();
         int totalPages = (int) Math.ceil((double) totalElements / pageSize);
+        posts.forEach(this::populateLikesAndComments);
 
         return new PostPageResponse(posts,
                 new Meta(page, pageSize, totalPages, totalElements));
@@ -63,12 +78,14 @@ public class PostService {
             throw new UserNotFoundException("User not found with id: " + userId);
         }
         List<Post> posts = postRepository.selectPostsByUserId(userId);
-        for (Post post : posts) {
-            int totalLikes = postRepository.countLikesByPostId(post.getPostId());
-            int totalComments = postRepository.countCommentsByPostId(post.getPostId());
-            post.setTotalLikes(totalLikes);
-            post.setTotalComments(totalComments);
-        }
+        posts.forEach(this::populateLikesAndComments);
         return posts;
+    }
+
+    private void populateLikesAndComments(Post post) {
+        int totalLikes = postRepository.countLikesByPostId(post.getPostId());
+        int totalComments = postRepository.countCommentsByPostId(post.getPostId());
+        post.setTotalLikes(totalLikes);
+        post.setTotalComments(totalComments);
     }
 }

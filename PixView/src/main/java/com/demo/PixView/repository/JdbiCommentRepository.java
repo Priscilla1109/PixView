@@ -23,4 +23,7 @@ public interface JdbiCommentRepository {
 
     @SqlUpdate
     void deleteCommentById(@Bind("commentId") Long commentId);
+
+    @SqlUpdate
+    void deleteAllCommentsByPostId(@Bind("postId") Long postId);
 }

@@ -1,7 +1,6 @@
 package com.demo.PixView.service;
 
 import com.demo.PixView.exception.LikeNotFoundException;
-import com.demo.PixView.exception.PostNotFoundException;
 import com.demo.PixView.exception.UserNotFoundException;
 import com.demo.PixView.model.Like;
 import com.demo.PixView.repository.JdbiLikeRepository;
@@ -26,7 +25,10 @@ public class LikeService {
     public void addLike(Long postId, Long userId) {
         validatePostExists(postId);
         validateUserExists(userId);
-        Like like = new Like(postId, userId, null);
+
+        Like like = new Like();
+        like.setPostId(postId);
+        like.setUserId(userId);
 
         if (!likeRepository.likeExists(like)) {
             long generatedId = likeRepository.addLike(like);
@@ -41,7 +43,7 @@ public class LikeService {
     }
 
     private void validatePostExists(Long postId) {
-        postRepository.existsById(postId);
+        postRepository.selectPostsById(postId);
     }
 
     public void deleteLikeById(Long likeId) {

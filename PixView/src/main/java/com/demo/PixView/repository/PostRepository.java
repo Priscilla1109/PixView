@@ -32,13 +32,8 @@ public class PostRepository {
     }
 
     public void deletePost(Long postId) {
-        existsById(postId);
+        selectPostsById(postId);
         jdbiPostRepository.deletePost(postId);
-    }
-
-    public Optional<Post> existsById(Long postId) {
-        Optional<Post> optionalPost = jdbiPostRepository.existsById(postId);
-        return Optional.ofNullable(optionalPost.orElseThrow(() -> new PostNotFoundException("Post not found with id: " + postId)));
     }
 
     public List<Post> findAll(int offSet, int pageSize) {

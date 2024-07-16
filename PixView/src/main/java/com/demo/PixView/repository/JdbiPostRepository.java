@@ -25,20 +25,17 @@ public interface JdbiPostRepository {
     @SqlQuery
     Optional<Post> selectPostsById(@Bind("postId") Long postId);
 
+    @SqlQuery
+    List<Post> selectPostsByUserId(@Bind("userId") Long userId);
+
     @SqlUpdate
     void deletePost(@Bind("postId") Long postId);
-
-    @SqlQuery
-    Optional<Post> existsById(@Bind("postId") Long postId);
 
     @SqlQuery
     List<Post> findAll(@Bind("offSet") int offSet, @Bind("limit") int limit);
 
     @SqlQuery
     Long countAll();
-
-    @SqlQuery
-    List<Post> selectPostsByUserId(@Bind("userId") Long userId);
 
     @SqlQuery
     int countLikesByPostId(@Bind("postId") Long postId);
