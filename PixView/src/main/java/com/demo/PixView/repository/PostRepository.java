@@ -1,7 +1,6 @@
 package com.demo.PixView.repository;
 
 import com.demo.PixView.exception.PostNotFoundException;
-import com.demo.PixView.exception.UserNotFoundException;
 import com.demo.PixView.model.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -14,6 +13,8 @@ import java.util.Optional;
 public class PostRepository {
     private final JdbiPostRepository jdbiPostRepository;
     private final UserRepository userRepository;
+    private final JdbiLikeRepository likeRepository;
+    private final JdbiCommentRepository commentRepository;
 
     public Long createNewPost(final Post post) {
         return jdbiPostRepository.createNewPost(post);
@@ -30,8 +31,21 @@ public class PostRepository {
     }
 
     public void deletePost(Long postId) {
-        selectPostsById(postId);
-        jdbiPostRepository.deletePost(postId);
+        Optional<Post> postOptional = jdbiPostRepository.selectPostsById(postId);
+        if (postOptional.isPresent()) {
+            likeRepository.deleteAllLikesByPostId(postId);
+            commentRepository.deleteAllCommentsByPostId(postId);
+            jdbiPostRepository.deletePost(postId);
+        }
+    }
+
+    public void deletePostsByUserId(Long userId) {
+        List<Post> userPosts = selectPostsByUserId(userId);
+        if (!userPosts.isEmpty()) {
+            for (Post post : userPosts) {
+                deletePost(post.getPostId());
+            }
+        }
     }
 
     public List<Post> findAll(int offSet, int pageSize) {

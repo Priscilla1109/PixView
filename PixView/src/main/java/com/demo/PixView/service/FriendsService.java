@@ -42,4 +42,10 @@ public class FriendsService {
         return jdbiFriendsRepository.findFriends(userId);
     }
 
+    public void deleteAllFriendsByUserId(Long userId) {
+        List<User> friends = jdbiFriendsRepository.findFriends(userId);
+        for (User friend : friends) {
+            jdbiFriendsRepository.removeFriend(userId, friend.getUserId());
+        }
+    }
 }

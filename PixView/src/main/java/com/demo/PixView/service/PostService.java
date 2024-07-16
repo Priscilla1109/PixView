@@ -49,12 +49,8 @@ public class PostService {
     }
 
     public void deletePostById(Long postId) {
-        Optional<Post> postOptional = postRepository.selectPostsById(postId);
-        if (postOptional.isPresent()) {
-            likeRepository.deleteAllLikesByPostId(postId);
-            commentRepository.deleteAllCommentsByPostId(postId);
-            postRepository.deletePost(postId);
-        }
+        postRepository.selectPostsById(postId);
+        postRepository.deletePost(postId);
     }
 
     public PostPageResponse<Post> listAllPosts(int page, int pageSize) {
