@@ -16,6 +16,9 @@ public class UserRepository {
     private final JdbiUserRepository jdbiUserRepository;
 
     public Long createNewUser(final User user) {
+        existByUserName(user.getUserName());
+        existByEmail(user.getEmail());
+
         return jdbiUserRepository.createNewUser(user);
     }
 
@@ -29,7 +32,7 @@ public class UserRepository {
         return Optional.ofNullable(optionalUser.orElseThrow(() -> new UserNotFoundException("User not found with name: " + userName)));
     }
 
-    public Optional<User> existByUserName(String userName) {
+    private Optional<User> existByUserName(String userName) {
         Optional<User> existingUser = jdbiUserRepository.selectByUserName(userName);
         if (existingUser.isPresent()) {
             throw new UserNameAlreadyExistsException("User name already exists: " + userName);
@@ -37,7 +40,7 @@ public class UserRepository {
         return existingUser;
     }
 
-    public Optional<User> existByEmail(String email) {
+    private Optional<User> existByEmail(String email) {
         Optional<User> existingUser = jdbiUserRepository.selectByEmail(email);
         if (existingUser.isPresent()) {
             throw new EmailAlreadyExistsException("Email already begin used: " + email);
@@ -48,10 +51,6 @@ public class UserRepository {
     public void deleteUser(Long userId){
         selectByUserId(userId);
         jdbiUserRepository.deleteUser(userId);
-    }
-
-    public boolean existsById(Long userId) {
-        return jdbiUserRepository.existsById(userId);
     }
 
     public List<User> findAll(int offSet, int pageSize) {

@@ -1,7 +1,5 @@
 package com.demo.PixView.service;
 
-import com.demo.PixView.exception.PostNotFoundException;
-import com.demo.PixView.exception.UserNotFoundException;
 import com.demo.PixView.model.*;
 import com.demo.PixView.repository.JdbiCommentRepository;
 import com.demo.PixView.repository.JdbiLikeRepository;
@@ -56,8 +54,6 @@ public class PostService {
             likeRepository.deleteAllLikesByPostId(postId);
             commentRepository.deleteAllCommentsByPostId(postId);
             postRepository.deletePost(postId);
-        } else {
-            throw new PostNotFoundException("Post not found with id: " + postId);
         }
     }
 
@@ -74,9 +70,6 @@ public class PostService {
     }
 
     public List<Post> getPostsByUserId(Long userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new UserNotFoundException("User not found with id: " + userId);
-        }
         List<Post> posts = postRepository.selectPostsByUserId(userId);
         posts.forEach(this::populateLikesAndComments);
         return posts;

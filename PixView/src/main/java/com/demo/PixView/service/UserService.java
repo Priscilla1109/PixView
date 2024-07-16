@@ -19,8 +19,6 @@ public class UserService {
     private UserRepository repository;
 
     public User createNewUser(User user){
-        repository.existByUserName(user.getUserName());
-        repository.existByEmail(user.getEmail());
         validateBirthDate(user.getBirthDate());
 
         Long generatedId = repository.createNewUser(user);

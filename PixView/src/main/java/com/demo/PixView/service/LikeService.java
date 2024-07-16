@@ -1,7 +1,6 @@
 package com.demo.PixView.service;
 
 import com.demo.PixView.exception.LikeNotFoundException;
-import com.demo.PixView.exception.UserNotFoundException;
 import com.demo.PixView.model.Like;
 import com.demo.PixView.repository.JdbiLikeRepository;
 import com.demo.PixView.repository.PostRepository;
@@ -37,9 +36,7 @@ public class LikeService {
     }
 
     private void validateUserExists(Long userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new UserNotFoundException("User not found with id: " + userId);
-        }
+        userRepository.selectByUserId(userId);
     }
 
     private void validatePostExists(Long postId) {

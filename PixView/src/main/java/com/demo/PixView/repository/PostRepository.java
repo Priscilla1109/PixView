@@ -25,9 +25,7 @@ public class PostRepository {
     }
 
     public List<Post> selectPostsByUserId(Long userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new UserNotFoundException("User not found with id: " + userId);
-        }
+        userRepository.selectByUserId(userId);
         return jdbiPostRepository.selectPostsByUserId(userId);
     }
 

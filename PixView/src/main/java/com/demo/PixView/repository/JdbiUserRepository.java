@@ -37,9 +37,6 @@ public interface JdbiUserRepository {
     void deleteUser(@Bind("userId") Long userId);
 
     @SqlQuery
-    boolean existsById(@Bind("userId") Long userId);
-
-    @SqlQuery
     List<User> findAll(@Bind("offSet") int offSet, @Bind("limit") int limit);
 
     @SqlQuery

@@ -19,7 +19,7 @@ public class FriendsService {
     JdbiFriendsRepository jdbiFriendsRepository;
 
     public void addNewFriend(Long userId, Long friendId) {
-        userRepository.existsById(userId);
+        userRepository.selectByUserId(userId);
         Optional<User> friendOptional = jdbiFriendsRepository.findById(friendId);
 
         if (friendOptional.isEmpty()) {
@@ -29,7 +29,7 @@ public class FriendsService {
     }
 
     public void removeFriend(Long userId, Long friendId) {
-        userRepository.existsById(userId);
+        userRepository.selectByUserId(userId);
         Optional<User> friendOptional = jdbiFriendsRepository.findById(friendId);
 
         if (friendOptional.isEmpty()) {
