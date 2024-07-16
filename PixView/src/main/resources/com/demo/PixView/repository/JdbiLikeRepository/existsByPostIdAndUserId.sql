@@ -1,0 +1,1 @@
+SELECT COUNT(*) > 0 FROM LIKES WHERE post_id = :postId AND user_id = :userId

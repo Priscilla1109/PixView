@@ -1,8 +1,6 @@
 package com.demo.PixView.service;
 
 import com.demo.PixView.model.*;
-import com.demo.PixView.repository.JdbiCommentRepository;
-import com.demo.PixView.repository.JdbiLikeRepository;
 import com.demo.PixView.repository.PostRepository;
 import com.demo.PixView.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +17,6 @@ public class PostService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private JdbiLikeRepository likeRepository;
-
-    @Autowired
-    private JdbiCommentRepository commentRepository;
 
     public Post createNewPost(String userName, String content){
         Optional<User> userOptional = userRepository.selectByUserName(userName);

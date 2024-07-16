@@ -40,7 +40,7 @@ public class PostController {
     public ResponseEntity<List<PostResponse>> getPostsByUserId(@PathVariable Long userId) {
         List<Post> posts = postService.getPostsByUserId(userId);
         List<PostResponse> postResponses = posts.stream()
-                .map(PostResponse::toResponse)
+                .map(PostMapper::toResponse)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(postResponses);
     }

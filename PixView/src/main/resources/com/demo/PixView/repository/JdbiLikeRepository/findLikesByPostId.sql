@@ -1,0 +1,1 @@
+SELECT * FROM LIKES WHERE post_id = :postId

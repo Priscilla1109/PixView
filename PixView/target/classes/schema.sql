@@ -22,6 +22,7 @@ CREATE TABLE LIKES (
     like_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     post_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
+    local_date_time TIMESTAMP NOT NULL,
     FOREIGN KEY (post_id) REFERENCES POSTS(post_id),
     FOREIGN KEY (user_id) REFERENCES USERS(user_id)
 );

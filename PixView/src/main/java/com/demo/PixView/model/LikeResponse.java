@@ -5,12 +5,10 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class PostResponse {
+public class LikeResponse {
+    private Long likeId;
     private Long postId;
-    private String userName;
     private Long userId;
-    private String content;
+    private String userName;
     private LocalDateTime localDateTime;
-    private int totalLikes;
-    private int totalComments;
 }
