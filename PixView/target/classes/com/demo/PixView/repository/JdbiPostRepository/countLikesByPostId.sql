@@ -1,3 +1,0 @@
-SELECT COUNT(*)
-FROM LIKES
-WHERE post_id = :postId;

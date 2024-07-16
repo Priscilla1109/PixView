@@ -1,1 +1,0 @@
-SELECT * FROM POSTS WHERE user_id = :userId

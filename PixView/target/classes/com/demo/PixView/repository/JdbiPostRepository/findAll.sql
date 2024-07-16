@@ -1,1 +1,0 @@
-SELECT * FROM POSTS LIMIT :limit OFFSET :offSet;
