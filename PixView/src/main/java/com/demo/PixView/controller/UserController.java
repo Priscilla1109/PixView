@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/allUsers")
-    public ResponseEntity<UserPageResponse> ListAllUsers(
+    public ResponseEntity<UserPageResponse> listAllUsers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize) {
         UserPageResponse<User> pageUsers = userService.listAllUsers(page, pageSize);

@@ -97,7 +97,7 @@ public class UserControllerTest {
 
         when(userService.listAllUsers(anyInt(), anyInt())).thenReturn(mockUserPageResponse);
 
-        ResponseEntity<UserPageResponse> responseEntity = userController.ListAllUsers(0, 10);
+        ResponseEntity<UserPageResponse> responseEntity = userController.listAllUsers(0, 10);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(mockUserPageResponse, responseEntity.getBody());

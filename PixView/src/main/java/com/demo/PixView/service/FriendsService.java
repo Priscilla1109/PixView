@@ -38,7 +38,7 @@ public class FriendsService {
         jdbiFriendsRepository.removeFriend(userId, friendId);
     }
 
-    public List<User> getFriends(Long userId) {
+    public List<User> listFriendsByUserId(Long userId) {
         return jdbiFriendsRepository.findFriends(userId);
     }
 

@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("APIs/PixView/comments")
 @RequiredArgsConstructor
@@ -19,7 +21,6 @@ public class CommentController {
         Comment commentCreated = commentService.addComment(
                 comment.getPostId(),
                 comment.getUserId(),
-                comment.getUserName(),
                 comment.getContent());
         CommentResponse response = CommentMapper.toResponse(commentCreated);
         return ResponseEntity.ok().body(response);
@@ -29,5 +30,11 @@ public class CommentController {
     public ResponseEntity<String> deleteCommentById(@PathVariable Long commentId) {
         commentService.deleteCommentById(commentId);
         return ResponseEntity.ok("Comment deleted successfully");
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<List<CommentResponse>> getCommentsByPostId(@PathVariable Long postId) {
+        List<CommentResponse> commentResponses = commentService.getCommentsByPostId(postId);
+        return ResponseEntity.ok(commentResponses);
     }
 }

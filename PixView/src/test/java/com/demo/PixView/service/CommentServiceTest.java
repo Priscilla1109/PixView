@@ -42,7 +42,7 @@ public class CommentServiceTest {
         Long generatedId = 1L;
         when(repositoryMock.addComment(any(Comment.class))).thenReturn(generatedId);
 
-        Comment addedComment = commentService.addComment(postId, userId, userName, content);
+        Comment addedComment = commentService.addComment(postId, userId, content);
 
         assertEquals(generatedId, addedComment.getCommentId());
         assertEquals(postId, addedComment.getPostId());

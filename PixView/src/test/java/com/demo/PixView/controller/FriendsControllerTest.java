@@ -144,40 +144,40 @@ public class FriendsControllerTest {
         mockFriends.add(user1);
         mockFriends.add(user2);
 
-        when(friendsService.getFriends(anyLong())).thenReturn(mockFriends);
+        when(friendsService.listFriendsByUserId(anyLong())).thenReturn(mockFriends);
 
-        ResponseEntity<?> responseEntity = friendsController.getFriends(1L);
+        ResponseEntity<?> responseEntity = friendsController.listFriendsByUserId(1L);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(mockFriends, responseEntity.getBody());
 
-        verify(friendsService, times(1)).getFriends(anyLong());
+        verify(friendsService, times(1)).listFriendsByUserId(anyLong());
         verifyNoMoreInteractions(friendsService);
     }
 
     @Test
     public void testGetFriends_UserNotFoundException() {
-        when(friendsService.getFriends(anyLong())).thenThrow(new UserNotFoundException("User not found"));
+        when(friendsService.listFriendsByUserId(anyLong())).thenThrow(new UserNotFoundException("User not found"));
 
-        ResponseEntity<?> responseEntity = friendsController.getFriends(1L);
+        ResponseEntity<?> responseEntity = friendsController.listFriendsByUserId(1L);
 
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
         assertEquals("User not found", responseEntity.getBody());
 
-        verify(friendsService, times(1)).getFriends(anyLong());
+        verify(friendsService, times(1)).listFriendsByUserId(anyLong());
         verifyNoMoreInteractions(friendsService);
     }
 
     @Test
     public void testGetFriends_InternalServerError() {
-        when(friendsService.getFriends(anyLong())).thenThrow(new RuntimeException("Internal server error"));
+        when(friendsService.listFriendsByUserId(anyLong())).thenThrow(new RuntimeException("Internal server error"));
 
-        ResponseEntity<?> responseEntity = friendsController.getFriends(1L);
+        ResponseEntity<?> responseEntity = friendsController.listFriendsByUserId(1L);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
         assertEquals("An unexpected error occurred", responseEntity.getBody());
 
-        verify(friendsService, times(1)).getFriends(anyLong());
+        verify(friendsService, times(1)).listFriendsByUserId(anyLong());
         verifyNoMoreInteractions(friendsService);
     }
 }

@@ -2,6 +2,7 @@ com\demo\PixView\config\JdbiConfing.class
 com\demo\PixView\model\Meta.class
 com\demo\PixView\exception\EmailAlreadyExistsException.class
 com\demo\PixView\mapper\CommentMapper.class
+com\demo\PixView\exception\AlreadyLikedException.class
 com\demo\PixView\mapper\PostRowMapper.class
 com\demo\PixView\controller\FriendsController.class
 com\demo\PixView\advice\GlobalExceptionHandler.class
@@ -20,6 +21,7 @@ com\demo\PixView\model\Like.class
 com\demo\PixView\service\LikeService.class
 com\demo\PixView\service\PostService.class
 com\demo\PixView\exception\UserNameAlreadyExistsException.class
+com\demo\PixView\model\LikeResponse.class
 com\demo\PixView\exception\PostNotFoundException.class
 com\demo\PixView\controller\UserController.class
 com\demo\PixView\mapper\UserRowMapper.class
@@ -43,5 +45,6 @@ com\demo\PixView\repository\JdbiCommentRepository.class
 com\demo\PixView\repository\JdbiPostRepository.class
 com\demo\PixView\controller\CommentController.class
 com\demo\PixView\repository\JdbiFriendsRepository.class
+com\demo\PixView\mapper\LikeMapper.class
 com\demo\PixView\model\PostPageResponse.class
 com\demo\PixView\model\UserResponse.class

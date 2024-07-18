@@ -127,7 +127,7 @@ public class FriendsServiceTest {
 
         when(jdbiFriendsRepositoryMock.findFriends(userId)).thenReturn(mockFriends);
 
-        List<User> retrievedFriends = friendsService.getFriends(userId);
+        List<User> retrievedFriends = friendsService.listFriendsByUserId(userId);
 
         assertEquals(mockFriends.size(), retrievedFriends.size());
         assertEquals(mockFriends.get(0).getUserId(), retrievedFriends.get(0).getUserId());

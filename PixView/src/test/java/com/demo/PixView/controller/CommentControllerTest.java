@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -32,7 +35,7 @@ public class CommentControllerTest {
         mockComment.setUserName("Priscilla_Fonseca");
         mockComment.setContent("Test comment");
 
-        when(commentService.addComment(anyLong(), anyLong(), anyString(), anyString())).thenReturn(mockComment);
+        when(commentService.addComment(anyLong(), anyLong(), anyString())).thenReturn(mockComment);
 
         Comment requestComment = new Comment();
         requestComment.setPostId(1L);
@@ -47,7 +50,7 @@ public class CommentControllerTest {
         assertEquals(mockComment.getContent(), responseBody.getContent());
         assertEquals(mockComment.getUserName(), responseBody.getUserName());
 
-        verify(commentService, times(1)).addComment(anyLong(), anyLong(), anyString(), anyString());
+        verify(commentService, times(1)).addComment(anyLong(), anyLong(), anyString());
         verifyNoMoreInteractions(commentService);
     }
 
@@ -63,5 +66,30 @@ public class CommentControllerTest {
 
         verify(commentService, times(1)).deleteCommentById(commentId);
         verifyNoMoreInteractions(commentService);
+    }
+
+    @Test
+    public void testGetCommentsByPostId() {
+        CommentResponse comment1 = new CommentResponse();
+        comment1.setCommentId(1L);
+        comment1.setPostId(1L);
+        comment1.setUserName("user_1");
+        comment1.setContent("Comment1");
+
+        CommentResponse comment2 = new CommentResponse();
+        comment2.setCommentId(2L);
+        comment2.setPostId(2L);
+        comment2.setUserName("user_2");
+        comment2.setContent("Comment2");
+
+        List<CommentResponse> mockComments = Arrays.asList(comment1, comment2);
+        when(commentService.getCommentsByPostId(anyLong())).thenReturn(mockComments);
+
+        ResponseEntity<List<CommentResponse>> responseEntity = commentController.getCommentsByPostId(1L);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(mockComments, responseEntity.getBody());
+
+        verify(commentService, times(1)).getCommentsByPostId(anyLong());
     }
 }

@@ -42,9 +42,9 @@ public class FriendsController {
     }
 
     @GetMapping("/list/{userId}")
-    public ResponseEntity<?> getFriends(@PathVariable Long userId) {
+    public ResponseEntity<?> listFriendsByUserId(@PathVariable Long userId) {
         try {
-            List<User> friends = service.getFriends(userId);
+            List<User> friends = service.listFriendsByUserId(userId);
             return ResponseEntity.ok(friends);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
