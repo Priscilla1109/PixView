@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -129,57 +129,54 @@ public class FriendsControllerTest {
         verifyNoMoreInteractions(friendsService);
     }
 
-//    @Test
-//    public void testGetFriends_Success() {
-//        // Mocking the behavior of FriendsService for getFriends
-//        List<User> mockFriends = Arrays.asList(
-//                new User(1L, "Friend1"),
-//                new User(2L, "Friend2")
-//        );
-//        when(friendsService.getFriends(anyLong())).thenReturn(mockFriends);
-//
-//        // Executing the controller method
-//        ResponseEntity<?> responseEntity = friendsController.getFriends(1L);
-//
-//        // Verifying the response
-//        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-//        assertEquals(mockFriends, responseEntity.getBody());
-//
-//        // Verifying that friendsService.getFriends was called
-//        verify(friendsService, times(1)).getFriends(anyLong());
-//        verifyNoMoreInteractions(friendsService);
-//    }
+    @Test
+    public void testGetFriends_Success() {
+        List<User> mockFriends = new ArrayList<>();
+
+        User user1 = new User();
+        user1.setUserId(1L);
+        user1.setUserName("Friend1");
+
+        User user2 = new User();
+        user2.setUserId(2L);
+        user2.setUserName("Friend2");
+
+        mockFriends.add(user1);
+        mockFriends.add(user2);
+
+        when(friendsService.getFriends(anyLong())).thenReturn(mockFriends);
+
+        ResponseEntity<?> responseEntity = friendsController.getFriends(1L);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(mockFriends, responseEntity.getBody());
+
+        verify(friendsService, times(1)).getFriends(anyLong());
+        verifyNoMoreInteractions(friendsService);
+    }
 
     @Test
     public void testGetFriends_UserNotFoundException() {
-        // Mocking the behavior of FriendsService to throw UserNotFoundException
         when(friendsService.getFriends(anyLong())).thenThrow(new UserNotFoundException("User not found"));
 
-        // Executing the controller method
         ResponseEntity<?> responseEntity = friendsController.getFriends(1L);
 
-        // Verifying the response
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
         assertEquals("User not found", responseEntity.getBody());
 
-        // Verifying that friendsService.getFriends was called
         verify(friendsService, times(1)).getFriends(anyLong());
         verifyNoMoreInteractions(friendsService);
     }
 
     @Test
     public void testGetFriends_InternalServerError() {
-        // Mocking the behavior of FriendsService to throw an unexpected exception
         when(friendsService.getFriends(anyLong())).thenThrow(new RuntimeException("Internal server error"));
 
-        // Executing the controller method
         ResponseEntity<?> responseEntity = friendsController.getFriends(1L);
 
-        // Verifying the response
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
         assertEquals("An unexpected error occurred", responseEntity.getBody());
 
-        // Verifying that friendsService.getFriends was called
         verify(friendsService, times(1)).getFriends(anyLong());
         verifyNoMoreInteractions(friendsService);
     }

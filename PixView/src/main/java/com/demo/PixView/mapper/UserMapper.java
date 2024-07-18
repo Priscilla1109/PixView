@@ -27,7 +27,7 @@ public class UserMapper {
                 .collect(Collectors.toList());
     }
 
-    private static int calculateAge(LocalDate birthDate) {
+    public static int calculateAge(LocalDate birthDate) {
         if (birthDate == null) {
             return 0;
         }
